@@ -1,6 +1,23 @@
 /*
 ============================================================
-STYLE.CSS — TEMA FULLMETAL ALCHEMIST
+STYLE.CSS — FOLHA DE ESTILOS DO LABORATÓRIO
+============================================================
+
+CSS é responsável pela aparência da página.
+
+Estrutura básica:
+
+seletor {
+    propriedade: valor;
+}
+
+Exemplo:
+
+p {
+    color: red;
+}
+
+Aqui usamos classes com . e IDs com #.
 ============================================================
 */
 
@@ -16,10 +33,8 @@ body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
-    /* Imagem de fundo fixada e cobrindo toda a tela */
-    background: url('fullmetal.jpeg') no-repeat center center fixed;
-    background-size: cover;
-    color: #e2e8f0; /* Texto claro para contrastar com fundo escuro */
+    background: #eef2f7;
+    color: #172033;
 }
 
 .container {
@@ -28,11 +43,9 @@ body {
 }
 
 .topo {
-    /* Fundo escuro com 85% de opacidade para a imagem aparecer no fundo */
-    background: rgba(15, 23, 42, 0.85);
+    background: #172033;
     color: white;
     padding: 45px 0 25px;
-    border-bottom: 3px solid #991b1b; /* Vermelho alquimia */
 }
 
 .etiqueta,
@@ -42,7 +55,7 @@ body {
 }
 
 .etiqueta {
-    color: #f87171; /* Tom avermelhado claro */
+    color: #7dd3fc;
     margin: 0;
 }
 
@@ -71,44 +84,37 @@ nav a,
     border-radius: 8px;
     padding: 9px 14px;
     font-weight: bold;
-    border: 1px solid transparent;
 }
 
 nav a {
     color: white;
-    background: rgba(38, 52, 78, 0.8);
-    backdrop-filter: blur(5px);
+    background: #26344e;
 }
 
 nav a:hover {
-    background: #991b1b; /* Destaque em vermelho escuro no hover */
-    border-color: #f87171;
+    background: #344665;
 }
 
 .aula {
-    background: rgba(23, 32, 51, 0.9); /* Caixas escuras e transparentes */
+    background: white;
     margin: 28px 0;
     padding: clamp(22px, 4vw, 42px);
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(153, 27, 27, 0.3); /* Borda sutil vermelha */
-    backdrop-filter: blur(8px);
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.08);
 }
 
 .aula h2 {
     margin-top: 4px;
     font-size: clamp(1.55rem, 3vw, 2.25rem);
-    color: #f8fafc;
 }
 
 .aula h3 {
     margin-top: 28px;
-    color: #f1f5f9;
 }
 
 .numero {
     display: inline-block;
-    background: #991b1b;
+    background: #172033;
     color: white;
     padding: 4px 10px;
     border-radius: 6px;
@@ -134,39 +140,35 @@ nav a:hover {
 .antes-depois > div,
 .desafio-grid > div {
     padding: 20px;
-    background: rgba(30, 41, 59, 0.8); /* Fundo metálico escuro */
+    background: #f1f5f9;
     border-radius: 10px;
-    border-left: 3px solid #991b1b;
 }
 
 .mini-card strong,
 .antes-depois strong {
     display: block;
     font-size: 1.25rem;
-    color: #f8fafc;
 }
 
 .mini-card span {
-    color: #94a3b8;
+    color: #64748b;
 }
 
 .nota {
-    background: rgba(69, 10, 10, 0.6);
-    border-left: 5px solid #ef4444;
+    background: #fff7ed;
+    border-left: 5px solid #f59e0b;
     padding: 16px 18px;
     margin: 22px 0;
     border-radius: 8px;
-    color: #fecaca;
 }
 
 pre {
     overflow-x: auto;
-    background: rgba(2, 6, 23, 0.85);
+    background: #101827;
     color: #e5e7eb;
     padding: 20px;
     border-radius: 10px;
     line-height: 1.5;
-    border: 1px solid #334155;
 }
 
 code {
@@ -174,15 +176,14 @@ code {
 }
 
 :not(pre) > code {
-    background: rgba(71, 85, 105, 0.8);
+    background: #e2e8f0;
     padding: 2px 5px;
     border-radius: 4px;
-    color: #f8fafc;
 }
 
 .experimento {
-    border: 2px dashed #991b1b;
-    background: rgba(15, 23, 42, 0.6);
+    border: 2px dashed #94a3b8;
+    background: #f8fafc;
     padding: 22px;
     margin-top: 25px;
     border-radius: 12px;
@@ -190,7 +191,6 @@ code {
 
 .experimento h3 {
     margin-top: 0;
-    color: #f87171;
 }
 
 input,
@@ -200,16 +200,9 @@ textarea {
     max-width: 700px;
     padding: 12px;
     margin: 7px 0 15px;
-    background: rgba(30, 41, 59, 0.9);
-    color: white;
-    border: 1px solid #475569;
+    border: 1px solid #94a3b8;
     border-radius: 7px;
     font: inherit;
-}
-
-input::placeholder,
-textarea::placeholder {
-    color: #94a3b8;
 }
 
 textarea {
@@ -221,22 +214,20 @@ button {
     border: 0;
     border-radius: 8px;
     padding: 11px 17px;
-    background: #991b1b;
+    background: #172033;
     color: white;
     cursor: pointer;
     font-weight: bold;
     margin: 4px 5px 4px 0;
-    transition: 0.2s;
 }
 
 button:hover {
-    background: #b91c1c;
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    opacity: 0.85;
 }
 
 .resultado {
-    background: rgba(30, 41, 59, 0.8);
-    border: 1px solid #475569;
+    background: white;
+    border: 1px solid #cbd5e1;
     border-radius: 8px;
     padding: 18px;
     margin-top: 16px;
@@ -252,8 +243,8 @@ button:hover {
 }
 
 .caixa-demo {
-    background: rgba(56, 189, 248, 0.1);
-    border: 2px solid #38bdf8;
+    background: #dbeafe;
+    border: 2px solid #60a5fa;
     padding: 15px;
     margin: 8px 0;
     border-radius: 8px;
@@ -262,7 +253,7 @@ button:hover {
 .caixa-id-demo {
     padding: 20px;
     border-radius: 10px;
-    background: rgba(139, 92, 246, 0.1);
+    background: #ede9fe;
     border: 2px solid #8b5cf6;
     margin-bottom: 12px;
 }
@@ -286,11 +277,11 @@ button:hover {
 }
 
 .area-com-estilo {
-    background: #991b1b;
+    background: #172033;
     color: white;
-    border: 4px solid #f87171;
+    border: 4px solid #38bdf8;
     border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(153, 27, 27, 0.4);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
     transform: scale(1.01);
     transition: 0.25s;
 }
@@ -312,7 +303,6 @@ button:hover {
     text-align: center;
     margin: 30px auto;
     max-width: 520px;
-    color: #1e293b;
 }
 
 .margin-box {
@@ -337,22 +327,22 @@ button:hover {
 }
 
 .botao {
-    background: #991b1b;
+    background: #172033;
     color: white;
 }
 
 .botao.secundario,
 button.secundario {
-    background: #475569;
+    background: #64748b;
 }
 
 .pequeno {
-    color: #94a3b8;
+    color: #64748b;
     font-size: 0.9rem;
 }
 
 .projeto {
-    border: 3px solid #991b1b;
+    border: 3px solid #172033;
 }
 
 .projeto-grid {
@@ -362,7 +352,7 @@ button.secundario {
 }
 
 .projeto-explicacao {
-    background: rgba(30, 41, 59, 0.8);
+    background: #f1f5f9;
     padding: 22px;
     border-radius: 12px;
 }
@@ -373,7 +363,7 @@ button.secundario {
 }
 
 .desafio {
-    background: rgba(15, 23, 42, 0.9);
+    background: #172033;
     color: white;
 }
 
@@ -382,15 +372,14 @@ button.secundario {
 }
 
 .desafio-grid > div {
-    background: rgba(30, 41, 59, 0.8);
+    background: #26344e;
 }
 
 footer {
-    background: rgba(15, 23, 42, 0.95);
+    background: #0f172a;
     color: #cbd5e1;
     padding: 35px 0;
     margin-top: 50px;
-    border-top: 3px solid #991b1b;
 }
 
 footer a {
