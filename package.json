@@ -1,0 +1,12 @@
+{
+  "name": "laboratorio-html-css-js",
+  "version": "1.0.0",
+  "description": "Laboratório didático para primeiros passos em HTML, CSS e JavaScript",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

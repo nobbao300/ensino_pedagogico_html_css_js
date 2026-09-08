@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!--
+        UTF-8 permite que o navegador interprete corretamente
+        caracteres como: á, é, ç, ã, õ e vários símbolos.
+    -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--
+        O <title> aparece na aba do navegador.
+        Experimente trocar o texto abaixo!
+    -->
+    <title>Primeiros passos com HTML, CSS e JavaScript</title>
+
+    <!--
+        Aqui ligamos este HTML ao arquivo CSS.
+        HTML = estrutura
+        CSS  = aparência
+    -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="topo">
+        <div class="container">
+            <p class="etiqueta">LABORATÓRIO WEB</p>
+            <h1>Primeiros passos com HTML, CSS e JavaScript</h1>
+            <p class="subtitulo">
+                Uma página para aprender criando, testando e quebrando o código.
+            </p>
+
+            <nav id="menu">
+                <a href="#html">HTML</a>
+                <a href="#body">BODY</a>
+                <a href="#organizacao">CLASS e ID</a>
+                <a href="#css">CSS</a>
+                <a href="#js">JavaScript</a>
+                <a href="#projeto">Projeto final</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- =====================================================
+             00 - INTRODUÇÃO
+             ===================================================== -->
+        <section class="aula abertura">
+            <span class="numero">00</span>
+            <h2>Antes de começar</h2>
+
+            <p>
+                Uma página web pode ser entendida como uma construção.
+            </p>
+
+            <div class="tripla">
+                <div class="mini-card">
+                    <strong>HTML</strong>
+                    <span>estrutura e conteúdo</span>
+                </div>
+
+                <div class="mini-card">
+                    <strong>CSS</strong>
+                    <span>aparência e organização visual</span>
+                </div>
+
+                <div class="mini-card">
+                    <strong>JavaScript</strong>
+                    <span>comportamento e interação</span>
+                </div>
+            </div>
+
+            <div class="nota">
+                <strong>Ideia principal:</strong>
+                durante esta aula você não vai apenas ler código.
+                Você vai experimentar o código.
+            </div>
+        </section>
+
+        <!-- =====================================================
+             01 - DOCTYPE
+             ===================================================== -->
+        <section class="aula" id="html">
+            <span class="numero">01</span>
+            <h2>O primeiro passo: <!DOCTYPE html></h2>
+
+            <div class="codigo">
+                <code>&lt;!DOCTYPE html&gt;</code>
+            </div>
+
+            <p>
+                Esta linha informa ao navegador que estamos trabalhando
+                com um documento HTML5.
+            </p>
+
+            <details>
+                <summary>Por que precisamos dela?</summary>
+                <p>
+                    Ela ajuda o navegador a interpretar o documento utilizando
+                    o modo padrão do HTML moderno.
+                </p>
+            </details>
+
+            <div class="experimento">
+                <h3>🧪 Experimente</h3>
+                <p>
+                    Digite uma palavra e veja como o navegador consegue
+                    mostrar conteúdo HTML.
+                </p>
+
+                <input id="experimentoTexto" type="text"
+                       placeholder="Digite alguma coisa">
+
+                <button id="btnExperimentoTexto">Mostrar</button>
+
+                <div id="resultadoTexto" class="resultado">
+                    Seu resultado aparecerá aqui.
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             02 - HTML / HEAD / UTF-8 / TITLE
+             ===================================================== -->
+        <section class="aula">
+            <span class="numero">02</span>
+            <h2>Conhecendo o <code>&lt;html&gt;</code> e o <code>&lt;head&gt;</code></h2>
+
+            <pre><code>&lt;html lang="pt-BR"&gt;
+
+    &lt;head&gt;
+        &lt;meta charset="UTF-8"&gt;
+        &lt;title&gt;Minha página&lt;/title&gt;
+    &lt;/head&gt;
+
+&lt;/html&gt;</code></pre>
+
+            <h3><code>lang="pt-BR"</code></h3>
+            <p>
+                O atributo <code>lang</code> informa o idioma principal
+                do documento.
+            </p>
+
+            <h3><code>&lt;head&gt;</code></h3>
+            <p>
+                O <code>head</code> guarda informações e configurações
+                importantes da página. Ele não é o lugar onde normalmente
+                colocamos o conteúdo principal que o visitante lê.
+            </p>
+
+            <h3><code>&lt;meta charset="UTF-8"&gt;</code></h3>
+            <p>
+                O navegador precisa saber como interpretar os caracteres.
+                O UTF-8 permite trabalhar corretamente com acentos e muitos
+                outros caracteres.
+            </p>
+
+            <div class="experimento">
+                <h3>🧪 Teste o UTF-8</h3>
+                <p>Digite uma frase com acentos:</p>
+
+                <input id="utf8Input" type="text"
+                       placeholder="Ex.: Programação é divertida!">
+
+                <button id="btnUtf8">Testar</button>
+
+                <div id="utf8Resultado" class="resultado">
+                    Digite uma frase acima.
+                </div>
+            </div>
+
+            <h3><code>&lt;title&gt;</code></h3>
+            <p>
+                O título aparece na aba ou janela do navegador.
+            </p>
+
+            <div class="nota">
+                <strong>Observe:</strong>
+                você pode abrir o código-fonte desta página e procurar
+                exatamente essas partes.
+            </div>
+        </section>
+
+        <!-- =====================================================
+             03 - BODY
+             ===================================================== -->
+        <section class="aula" id="body">
+            <span class="numero">03</span>
+            <h2>Agora entramos no <code>&lt;body&gt;</code></h2>
+
+            <p>
+                É dentro do <code>body</code> que colocamos aquilo que
+                fará parte do conteúdo apresentado ao visitante.
+            </p>
+
+            <pre><code>&lt;body&gt;
+
+    &lt;h1&gt;Meu título&lt;/h1&gt;
+
+    &lt;p&gt;Meu primeiro parágrafo.&lt;/p&gt;
+
+&lt;/body&gt;</code></pre>
+
+            <div class="comparacao">
+                <div>
+                    <code>&lt;h1&gt;</code>
+                    <p>título principal</p>
+                </div>
+                <div>
+                    <code>&lt;p&gt;</code>
+                    <p>parágrafo</p>
+                </div>
+                <div>
+                    <code>&lt;strong&gt;</code>
+                    <p>ênfase forte</p>
+                </div>
+                <div>
+                    <code>&lt;em&gt;</code>
+                    <p>ênfase</p>
+                </div>
+            </div>
+
+            <div class="experimento">
+                <h3>🧪 Monte seu conteúdo</h3>
+
+                <label for="tituloAluno">Título:</label>
+                <input id="tituloAluno" type="text"
+                       placeholder="Meu primeiro título">
+
+                <label for="paragrafoAluno">Parágrafo:</label>
+                <textarea id="paragrafoAluno"
+                          placeholder="Escreva seu primeiro parágrafo..."></textarea>
+
+                <button id="btnGerarConteudo">Gerar conteúdo</button>
+
+                <div id="conteudoGerado" class="resultado">
+                    O resultado aparecerá aqui.
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             04 - DIV / CLASS / ID
+             ===================================================== -->
+        <section class="aula" id="organizacao">
+            <span class="numero">04</span>
+            <h2>Organizando a página: <code>&lt;div&gt;</code>, class e id</h2>
+
+            <p>
+                Uma <code>div</code> pode ser pensada como uma caixa usada
+                para agrupar e organizar conteúdo.
+            </p>
+
+            <pre><code>&lt;div class="caixa"&gt;
+    &lt;h2&gt;Meu conteúdo&lt;/h2&gt;
+    &lt;p&gt;Um texto dentro da caixa.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+            <p>
+                O atributo <code>class</code> dá um nome que pode ser
+                utilizado por vários elementos.
+            </p>
+
+            <pre><code>&lt;div class="caixa"&gt;Caixa 1&lt;/div&gt;
+&lt;div class="caixa"&gt;Caixa 2&lt;/div&gt;
+&lt;div class="caixa"&gt;Caixa 3&lt;/div&gt;</code></pre>
+
+            <p>
+                Já o <code>id</code> identifica um elemento específico.
+            </p>
+
+            <pre><code>&lt;div id="principal"&gt;
+    Conteúdo principal
+&lt;/div&gt;</code></pre>
+
+            <div class="experimento">
+                <h3>🧪 Class em ação</h3>
+
+                <div class="caixa-demo">Caixa 1</div>
+                <div class="caixa-demo">Caixa 2</div>
+                <div class="caixa-demo">Caixa 3</div>
+
+                <p>
+                    As três caixas usam a mesma classe:
+                    <code>.caixa-demo</code>.
+                </p>
+            </div>
+
+            <div class="experimento">
+                <h3>🧪 ID em ação</h3>
+
+                <div id="caixaIdDemo" class="caixa-id-demo">
+                    Esta caixa possui um ID específico.
+                </div>
+
+                <button id="btnId">Alterar esta caixa</button>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             05 - LINKS E IMAGENS
+             ===================================================== -->
+        <section class="aula">
+            <span class="numero">05</span>
+            <h2>Links e imagens</h2>
+
+            <h3>Links: <code>&lt;a&gt;</code></h3>
+
+            <pre><code>&lt;a href="https://www.google.com"&gt;
+    Abrir site
+&lt;/a&gt;</code></pre>
+
+            <p>
+                O <code>href</code> informa para onde o link deve levar.
+            </p>
+
+            <a class="botao secundario" href="#projeto">Ir para o laboratório final</a>
+
+            <h3>Imagens: <code>&lt;img&gt;</code></h3>
+
+            <pre><code>&lt;img src="imagens/foto.jpg"
+     alt="Descrição da imagem"&gt;</code></pre>
+
+            <p>
+                <code>src</code> indica o caminho da imagem.
+                <code>alt</code> fornece uma descrição textual.
+            </p>
+
+            <div class="experimento">
+                <h3>🧪 Teste um caminho de imagem</h3>
+
+                <label for="imagemSrc">Caminho da imagem:</label>
+                <input id="imagemSrc" type="text"
+                       placeholder="ex.: imagens/minha-foto.jpg">
+
+                <button id="btnImagem">Testar imagem</button>
+
+                <div id="imagemResultado" class="resultado imagem-area">
+                    A imagem aparecerá aqui.
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             06 - CSS
+             ===================================================== -->
+        <section class="aula" id="css">
+            <span class="numero">06</span>
+            <h2>CSS: dando aparência ao HTML</h2>
+
+            <p>
+                CSS significa <strong>Cascading Style Sheets</strong>.
+                Ele é utilizado para controlar a aparência dos elementos.
+            </p>
+
+            <div class="antes-depois">
+                <div>
+                    <strong>HTML</strong>
+                    <p>O que existe?</p>
+                </div>
+                <div>
+                    <strong>CSS</strong>
+                    <p>Como aparece?</p>
+                </div>
+                <div>
+                    <strong>JavaScript</strong>
+                    <p>O que acontece?</p>
+                </div>
+            </div>
+
+            <h3>Como o CSS encontra uma classe?</h3>
+
+            <pre><code>.caixa {
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 10px;
+}</code></pre>
+
+            <p>
+                O ponto <code>.</code> indica que estamos selecionando uma
+                <code>class</code>.
+            </p>
+
+            <div class="experimento css-laboratorio">
+                <h3>🧪 Laboratório CSS</h3>
+
+                <div id="cssDemo" class="css-demo">
+                    Eu sou uma caixa controlada pelo CSS.
+                </div>
+
+                <label for="corFundo">Cor do fundo:</label>
+                <input id="corFundo" type="text" value="lightblue"
+                       placeholder="ex.: yellow">
+
+                <label for="corTexto">Cor do texto:</label>
+                <input id="corTexto" type="text" value="black"
+                       placeholder="ex.: white">
+
+                <button id="btnAplicarCss">Aplicar CSS</button>
+
+                <p class="pequeno">
+                    Depois de testar aqui, abra o arquivo
+                    <code>style.css</code> e procure pelas propriedades
+                    usadas nesta página.
+                </p>
+            </div>
+
+            <div class="experimento">
+                <h3>⬇️ Experimento: carregar o CSS</h3>
+                <p>
+                    Esta experiência cria uma demonstração de como uma folha
+                    de estilos pode alterar a aparência de uma área.
+                </p>
+
+                <div id="cssCarregavel" class="area-sem-estilo">
+                    Área de demonstração
+                </div>
+
+                <button id="btnCarregarCss">Aplicar estilo</button>
+                <button id="btnRemoverCss" class="secundario">Remover estilo</button>
+
+                <p id="statusCss" class="pequeno">
+                    O estilo ainda não foi aplicado.
+                </p>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             07 - BOX MODEL
+             ===================================================== -->
+        <section class="aula">
+            <span class="numero">07</span>
+            <h2>Box Model: toda caixa tem partes</h2>
+
+            <p>
+                No CSS, podemos pensar em um elemento como uma caixa formada
+                por conteúdo, padding, border e margin.
+            </p>
+
+            <div class="box-model">
+                <div class="margin-box">
+                    margin
+                    <div class="border-box">
+                        border
+                        <div class="padding-box">
+                            padding
+                            <div class="content-box">
+                                conteúdo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ul>
+                <li><strong>content:</strong> conteúdo.</li>
+                <li><strong>padding:</strong> espaço interno.</li>
+                <li><strong>border:</strong> borda.</li>
+                <li><strong>margin:</strong> espaço externo.</li>
+            </ul>
+        </section>
+
+        <!-- =====================================================
+             08 - FORMULÁRIOS
+             ===================================================== -->
+        <section class="aula">
+            <span class="numero">08</span>
+            <h2>Entrada de dados: input, textarea e button</h2>
+
+            <pre><code>&lt;input type="text"&gt;
+
+&lt;textarea&gt;&lt;/textarea&gt;
+
+&lt;button&gt;Enviar&lt;/button&gt;</code></pre>
+
+            <p>
+                Esses elementos permitem criar interfaces nas quais o usuário
+                pode fornecer informações.
+            </p>
+
+            <div class="experimento">
+                <h3>🧪 Teste</h3>
+
+                <label for="nomeTeste">Nome:</label>
+                <input id="nomeTeste" type="text" placeholder="Digite seu nome">
+
+                <button id="btnSaudacao">Enviar</button>
+
+                <div id="saudacao" class="resultado">
+                    Aguardando...
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             09 - JAVASCRIPT
+             ===================================================== -->
+        <section class="aula" id="js">
+            <span class="numero">09</span>
+            <h2>JavaScript: fazendo a página reagir</h2>
+
+            <p>
+                HTML cria elementos. CSS controla a aparência.
+                JavaScript pode fazer a página reagir às ações do usuário.
+            </p>
+
+            <pre><code>const botao = document.querySelector("#meuBotao");
+
+botao.addEventListener("click", function () {
+    alert("Você clicou!");
+});</code></pre>
+
+            <div class="experimento">
+                <h3>🧪 Clique no botão</h3>
+
+                <button id="meuBotao">Clique em mim</button>
+
+                <p id="contador">
+                    Você ainda não clicou.
+                </p>
+            </div>
+
+            <div class="nota">
+                <strong>Observe:</strong>
+                o HTML criou o botão, o CSS pode mudar sua aparência
+                e o JavaScript está observando o clique.
+            </div>
+        </section>
+
+        <!-- =====================================================
+             10 - PROJETO FINAL
+             ===================================================== -->
+        <section class="aula projeto" id="projeto">
+            <span class="numero">10</span>
+            <h2>🧪 Projeto final: seu primeiro arquivo de texto</h2>
+
+            <p>
+                Agora vamos juntar os conceitos.
+                Escreva um pequeno texto e envie para o servidor.
+            </p>
+
+            <div class="projeto-grid">
+                <div>
+                    <label for="arquivoNome">Nome do arquivo:</label>
+                    <input id="arquivoNome" type="text"
+                           value="meu-primeiro-texto"
+                           placeholder="ex.: atividade-html">
+
+                    <label for="textoFinal">Seu texto:</label>
+                    <textarea id="textoFinal"
+                              placeholder="Escreva aqui o conteúdo que será salvo..."></textarea>
+
+                    <button id="btnSalvarTxt">Gerar arquivo TXT</button>
+
+                    <p id="statusSalvar" class="status">
+                        O arquivo ainda não foi enviado.
+                    </p>
+                </div>
+
+                <div class="projeto-explicacao">
+                    <h3>O que acontece?</h3>
+
+                    <ol>
+                        <li>Você escreve no navegador.</li>
+                        <li>O JavaScript coleta o conteúdo.</li>
+                        <li>Uma requisição é enviada ao servidor.</li>
+                        <li>O servidor recebe os dados.</li>
+                        <li>O servidor pode salvar o arquivo.</li>
+                    </ol>
+
+                    <div class="nota">
+                        <strong>Importante:</strong>
+                        em hospedagens como Render, o armazenamento local do
+                        servidor pode ser temporário. Se você quiser que os
+                        arquivos permaneçam no repositório Git, o servidor
+                        deverá usar uma integração com GitHub/GitLab ou outro
+                        armazenamento persistente.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             DESAFIO
+             ===================================================== -->
+        <section class="aula desafio">
+            <span class="numero">11</span>
+            <h2>🏆 Desafio</h2>
+
+            <p>
+                Agora tente modificar o próprio projeto.
+            </p>
+
+            <div class="desafio-grid">
+                <div>✏️ Troque o título da página.</div>
+                <div>🎨 Altere uma cor no CSS.</div>
+                <div>🖼️ Coloque uma imagem.</div>
+                <div>📦 Crie uma nova div.</div>
+                <div>🏷️ Use uma class.</div>
+                <div>🆔 Use um id.</div>
+                <div>⚡ Crie uma interação com JS.</div>
+                <div>📄 Gere seu arquivo TXT.</div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Laboratório didático de HTML, CSS e JavaScript.</p>
+            <a href="#menu">↑ Voltar ao início</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

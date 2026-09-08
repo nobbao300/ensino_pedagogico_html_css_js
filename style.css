@@ -1,0 +1,411 @@
+/*
+============================================================
+STYLE.CSS — FOLHA DE ESTILOS DO LABORATÓRIO
+============================================================
+
+CSS é responsável pela aparência da página.
+
+Estrutura básica:
+
+seletor {
+    propriedade: valor;
+}
+
+Exemplo:
+
+p {
+    color: red;
+}
+
+Aqui usamos classes com . e IDs com #.
+============================================================
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    background: #eef2f7;
+    color: #172033;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+
+.topo {
+    background: #172033;
+    color: white;
+    padding: 45px 0 25px;
+}
+
+.etiqueta,
+.numero {
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.etiqueta {
+    color: #7dd3fc;
+    margin: 0;
+}
+
+h1 {
+    font-size: clamp(2rem, 5vw, 3.7rem);
+    line-height: 1.05;
+    margin: 8px 0 15px;
+}
+
+.subtitulo {
+    color: #cbd5e1;
+    max-width: 700px;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 25px;
+}
+
+nav a,
+.botao {
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-weight: bold;
+}
+
+nav a {
+    color: white;
+    background: #26344e;
+}
+
+nav a:hover {
+    background: #344665;
+}
+
+.aula {
+    background: white;
+    margin: 28px 0;
+    padding: clamp(22px, 4vw, 42px);
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.08);
+}
+
+.aula h2 {
+    margin-top: 4px;
+    font-size: clamp(1.55rem, 3vw, 2.25rem);
+}
+
+.aula h3 {
+    margin-top: 28px;
+}
+
+.numero {
+    display: inline-block;
+    background: #172033;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+
+.abertura {
+    margin-top: 35px;
+}
+
+.tripla,
+.comparacao,
+.antes-depois,
+.desafio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 25px 0;
+}
+
+.mini-card,
+.comparacao > div,
+.antes-depois > div,
+.desafio-grid > div {
+    padding: 20px;
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.mini-card strong,
+.antes-depois strong {
+    display: block;
+    font-size: 1.25rem;
+}
+
+.mini-card span {
+    color: #64748b;
+}
+
+.nota {
+    background: #fff7ed;
+    border-left: 5px solid #f59e0b;
+    padding: 16px 18px;
+    margin: 22px 0;
+    border-radius: 8px;
+}
+
+pre {
+    overflow-x: auto;
+    background: #101827;
+    color: #e5e7eb;
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 1.5;
+}
+
+code {
+    font-family: "Courier New", monospace;
+}
+
+:not(pre) > code {
+    background: #e2e8f0;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.experimento {
+    border: 2px dashed #94a3b8;
+    background: #f8fafc;
+    padding: 22px;
+    margin-top: 25px;
+    border-radius: 12px;
+}
+
+.experimento h3 {
+    margin-top: 0;
+}
+
+input,
+textarea {
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    padding: 12px;
+    margin: 7px 0 15px;
+    border: 1px solid #94a3b8;
+    border-radius: 7px;
+    font: inherit;
+}
+
+textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+button {
+    border: 0;
+    border-radius: 8px;
+    padding: 11px 17px;
+    background: #172033;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 4px 5px 4px 0;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+.resultado {
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 18px;
+    margin-top: 16px;
+    min-height: 55px;
+}
+
+.comparacao > div {
+    text-align: center;
+}
+
+.comparacao code {
+    font-size: 1.25rem;
+}
+
+.caixa-demo {
+    background: #dbeafe;
+    border: 2px solid #60a5fa;
+    padding: 15px;
+    margin: 8px 0;
+    border-radius: 8px;
+}
+
+.caixa-id-demo {
+    padding: 20px;
+    border-radius: 10px;
+    background: #ede9fe;
+    border: 2px solid #8b5cf6;
+    margin-bottom: 12px;
+}
+
+.css-demo {
+    background: lightblue;
+    color: black;
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 18px;
+}
+
+.area-sem-estilo {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #94a3b8;
+    margin: 15px 0;
+}
+
+.area-com-estilo {
+    background: #172033;
+    color: white;
+    border: 4px solid #38bdf8;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+    transform: scale(1.01);
+    transition: 0.25s;
+}
+
+.imagem-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.imagem-area img {
+    max-width: 100%;
+    max-height: 350px;
+    border-radius: 8px;
+}
+
+.box-model {
+    text-align: center;
+    margin: 30px auto;
+    max-width: 520px;
+}
+
+.margin-box {
+    background: #fde68a;
+    padding: 30px;
+}
+
+.border-box {
+    background: #fca5a5;
+    padding: 8px;
+    border: 4px solid #7f1d1d;
+}
+
+.padding-box {
+    background: #bfdbfe;
+    padding: 25px;
+}
+
+.content-box {
+    background: white;
+    padding: 20px;
+}
+
+.botao {
+    background: #172033;
+    color: white;
+}
+
+.botao.secundario,
+button.secundario {
+    background: #64748b;
+}
+
+.pequeno {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.projeto {
+    border: 3px solid #172033;
+}
+
+.projeto-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 30px;
+}
+
+.projeto-explicacao {
+    background: #f1f5f9;
+    padding: 22px;
+    border-radius: 12px;
+}
+
+.status {
+    font-weight: bold;
+    padding: 10px;
+}
+
+.desafio {
+    background: #172033;
+    color: white;
+}
+
+.desafio-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.desafio-grid > div {
+    background: #26344e;
+}
+
+footer {
+    background: #0f172a;
+    color: #cbd5e1;
+    padding: 35px 0;
+    margin-top: 50px;
+}
+
+footer a {
+    color: white;
+}
+
+@media (max-width: 800px) {
+    .tripla,
+    .comparacao,
+    .antes-depois,
+    .desafio-grid,
+    .projeto-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .desafio-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .desafio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .aula {
+        padding: 22px;
+    }
+}
