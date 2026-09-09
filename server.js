@@ -1,101 +1,52 @@
-/*
-============================================================
-SERVER.JS — SALVANDO DIRETAMENTE NO GOOGLE DRIVE
-============================================================
-*/
-
 const express = require("express");
 const path = require("path");
-const { google } = require("googleapis");
+const mongoose = require("mongoose");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const pastaPublica = path.join(__dirname);
 app.use(express.json({ limit: "100kb" }));
-app.use(express.static(pastaPublica));
+app.use(express.static(path.join(__dirname)));
 
-// Configuração de Autenticação do Google Drive revisada
-let auth;
+// 1. Conexão com o Banco de Dados Gratuito (A URL vem de uma Variável de Ambiente no Render)
+const MONGO_URI = process.env.MONGO_URI || "sua_string_de_conexao_local";
 
-const authOptions = {
-    scopes: ["https://googleapis.com"]
-};
+mongoose.connect(MONGO_URI)
+    .then(() => console.log("Conectado ao MongoDB com sucesso!"))
+    .catch(err => console.error("Erro ao conectar ao MongoDB:", err));
 
-if (process.env.GOOGLE_CREDENTIALS) {
-    try {
-        // No Render, passamos o objeto JSON decodificado diretamente em credentials
-        authOptions.credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
-        auth = new google.auth.GoogleAuth(authOptions);
-    } catch (e) {
-        console.error("Erro ao analisar GOOGLE_CREDENTIALS da variável de ambiente:", e);
-    }
-} else {
-    // Localmente, usamos o arquivo físico credentials.json via keyFile
-    authOptions.keyFile = path.join(__dirname, "credentials.json");
-    auth = new google.auth.GoogleAuth(authOptions);
-}
+// 2. Definindo o "Molde" dos dados que vamos salvar
+const AlunoSchema = new mongoose.Schema({
+    nome: String,
+    texto: String,
+    data: { type: Date, default: Date.now }
+});
 
-const drive = google.drive({ version: "v3", auth });
+const AlunoModel = mongoose.model("AlunoTexto", AlunoSchema);
 
-// ID da pasta "alunos" no Google Drive
-const PASTA_ALUNOS_ID = "175bMJq--gBTfI8A0INE8bypOwNnwfKM4";
-
-function limparNomeArquivo(nome) {
-    return nome
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9_-]/g, "-")
-        .replace(/-+/g, "-")
-        .replace(/^-|-$/g, "")
-        .slice(0, 60);
-}
-
+// 3. Rota para receber os dados do site e salvar na nuvem
 app.post("/api/salvar-txt", async (req, res) => {
     try {
         const { nome, texto } = req.body;
 
-        if (typeof nome !== "string" || typeof texto !== "string") {
+        if (!nome || !texto) {
             return res.status(400).json({ erro: "Nome e texto são obrigatórios." });
         }
 
-        const nomeLimpo = limparNomeArquivo(nome);
+        // Salva permanentemente no banco de dados do MongoDB Atlas
+        const novoRegistro = new AlunoModel({ nome, texto });
+        await novoRegistro.save();
 
-        if (!nomeLimpo || !texto.trim()) {
-            return res.status(400).json({ erro: "Nome ou texto inválidos." });
-        }
-
-        const nomeArquivo = `${nomeLimpo}.txt`;
-
-        // Metadados do arquivo para o Google Drive
-        const fileMetadata = {
-            name: nomeArquivo,
-            parents: [PASTA_ALUNOS_ID] // Salva dentro da pasta específica
-        };
-
-        // Conteúdo do arquivo
-        const media = {
-            mimeType: "text/plain",
-            body: texto
-        };
-
-        // Cria o arquivo no Google Drive
-        const respostaDrive = await drive.files.create({
-            resource: fileMetadata,
-            media: media,
-            fields: "id, name, webViewLink"
-        });
-
-        console.log(`Arquivo criado no Google Drive: ${respostaDrive.data.name}`);
+        console.log(`Texto salvo no MongoDB para o aluno: ${nome}`);
 
         res.json({
             sucesso: true,
-            mensagem: `Arquivo "${nomeArquivo}" salvo no Google Drive com sucesso!`
+            mensagem: `Texto de "${nome}" salvo com segurança na nuvem!`
         });
 
     } catch (erro) {
-        console.error("Erro ao salvar no Google Drive:", erro);
-        res.status(500).json({ erro: "Não foi possível salvar o arquivo no Google Drive. Verifique as credenciais." });
+        console.error("Erro ao salvar no banco de dados:", erro);
+        res.status(500).json({ erro: "Não foi possível salvar os dados." });
     }
 });
 
