@@ -1,64 +1,49 @@
 /*
 ============================================================
-SERVER.JS — SERVIDOR PARA O PROJETO
-
-Este servidor utiliza Node.js + Express.
-
-Funções:
-
-1. Entregar os arquivos HTML/CSS/JS ao navegador.
-2. Receber textos enviados pelo formulário.
-3. Criar arquivos .txt na pasta "alunos".
-
-IMPORTANTE SOBRE O RENDER:
-
-Este exemplo salva os arquivos na pasta local "alunos".
-Em muitos serviços de hospedagem, o disco local pode ser
-temporário.
-
-Se o objetivo for manter os arquivos permanentemente no
-repositório Git, será necessário integrar este servidor com
-GitHub/GitLab ou utilizar armazenamento persistente.
-
-NUNCA coloque tokens ou senhas diretamente neste arquivo.
-Use variáveis de ambiente.
+SERVER.JS — SALVANDO DIRETAMENTE NO GOOGLE DRIVE
 ============================================================
 */
 
 const express = require("express");
 const path = require("path");
-const fs = require("fs/promises");
+const { google } = require("googleapis");
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 
 const pastaPublica = path.join(__dirname);
-const pastaAlunos = path.join(__dirname, "alunos");
-
 app.use(express.json({ limit: "100kb" }));
-
-/*
-    Entrega index.html, style.css e script.js.
-*/
 app.use(express.static(pastaPublica));
 
-/*
-    Garante que a pasta de arquivos dos alunos exista.
-*/
-async function prepararPasta() {
-    await fs.mkdir(pastaAlunos, { recursive: true });
+// Configuração de Autenticação do Google Drive
+// Funciona localmente via arquivo credentials.json ou no Render via Variável de Ambiente
+let credentialsConfig;
+if (process.env.GOOGLE_CREDENTIALS) {
+    try {
+        credentialsConfig = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+    } catch (e) {
+        console.error("Erro ao analisar GOOGLE_CREDENTIALS da variável de ambiente:", e);
+    }
+} else {
+    credentialsConfig = path.join(__dirname, "credentials.json");
 }
 
-/*
-    Remove caracteres perigosos do nome do arquivo.
+const authOptions = {
+    scopes: ["https://www.googleapis.com/auth/drive.file"]
+};
 
-    Exemplo:
+if (typeof credentialsConfig === "string") {
+    authOptions.keyFile = credentialsConfig;
+} else {
+    authOptions.credentials = credentialsConfig;
+}
 
-    "minha atividade/1"
-          ↓
-    "minha-atividade-1"
-*/
+const auth = new google.auth.GoogleAuth(authOptions);
+const drive = google.drive({ version: "v3", auth });
+
+// ID da pasta "alunos" no Google Drive
+const PASTA_ALUNOS_ID = "075BMJq--gBTFi8AOINE8bypOWnwfKM4";
+
 function limparNomeArquivo(nome) {
     return nome
         .normalize("NFD")
@@ -69,91 +54,54 @@ function limparNomeArquivo(nome) {
         .slice(0, 60);
 }
 
-
-/*
-============================================================
-ROTA POST /api/salvar-txt
-============================================================
-
-O navegador envia:
-
-{
-    "nome": "minha-atividade",
-    "texto": "Olá!"
-}
-
-O servidor transforma isso em:
-
-alunos/minha-atividade.txt
-============================================================
-*/
-
 app.post("/api/salvar-txt", async (req, res) => {
     try {
         const { nome, texto } = req.body;
 
         if (typeof nome !== "string" || typeof texto !== "string") {
-            return res.status(400).json({
-                erro: "Nome e texto são obrigatórios."
-            });
+            return res.status(400).json({ erro: "Nome e texto são obrigatórios." });
         }
 
         const nomeLimpo = limparNomeArquivo(nome);
 
-        if (!nomeLimpo) {
-            return res.status(400).json({
-                erro: "O nome do arquivo não é válido."
-            });
+        if (!nomeLimpo || !texto.trim()) {
+            return res.status(400).json({ erro: "Nome ou texto inválidos." });
         }
 
-        if (!texto.trim()) {
-            return res.status(400).json({
-                erro: "O texto não pode estar vazio."
-            });
-        }
+        const nomeArquivo = `${nomeLimpo}.txt`;
 
-        await prepararPasta();
+        // Metadados do arquivo para o Google Drive
+        const fileMetadata = {
+            name: nomeArquivo,
+            parents: [PASTA_ALUNOS_ID] // Salva dentro da pasta específica
+        };
 
-        const caminhoArquivo =
-            path.join(pastaAlunos, `${nomeLimpo}.txt`);
+        // Conteúdo do arquivo
+        const media = {
+            mimeType: "text/plain",
+            body: texto
+        };
 
-        await fs.writeFile(
-            caminhoArquivo,
-            texto,
-            "utf8"
-        );
+        // Cria o arquivo no Google Drive
+        const respostaDrive = await drive.files.create({
+            resource: fileMetadata,
+            media: media,
+            fields: "id, name, webViewLink"
+        });
 
-        console.log(`Arquivo criado: ${caminhoArquivo}`);
+        console.log(`Arquivo criado no Google Drive: ${respostaDrive.data.name}`);
 
         res.json({
             sucesso: true,
-            mensagem: `Arquivo "${nomeLimpo}.txt" salvo com sucesso.`
+            mensagem: `Arquivo "${nomeArquivo}" salvo no Google Drive com sucesso!`
         });
 
     } catch (erro) {
-        console.error(erro);
-
-        res.status(500).json({
-            erro: "Não foi possível salvar o arquivo."
-        });
+        console.error("Erro ao salvar no Google Drive:", erro);
+        res.status(500).json({ erro: "Não foi possível salvar o arquivo no Google Drive. Verifique as credenciais." });
     }
 });
 
-
-/*
-============================================================
-INICIALIZAÇÃO
-============================================================
-*/
-
-prepararPasta()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Servidor funcionando na porta ${PORT}`);
-            console.log(`Abra: http://localhost:${PORT}`);
-        });
-    })
-    .catch((erro) => {
-        console.error("Erro ao preparar o servidor:", erro);
-        process.exit(1);
-    });
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
