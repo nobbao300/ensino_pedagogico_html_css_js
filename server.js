@@ -15,30 +15,27 @@ const pastaPublica = path.join(__dirname);
 app.use(express.json({ limit: "100kb" }));
 app.use(express.static(pastaPublica));
 
-// Configuração de Autenticação do Google Drive
-// Funciona localmente via arquivo credentials.json ou no Render via Variável de Ambiente
-let credentialsConfig;
+// Configuração de Autenticação do Google Drive revisada
+let auth;
+
+const authOptions = {
+    scopes: ["https://googleapis.com"]
+};
+
 if (process.env.GOOGLE_CREDENTIALS) {
     try {
-        credentialsConfig = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+        // No Render, passamos o objeto JSON decodificado diretamente em credentials
+        authOptions.credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+        auth = new google.auth.GoogleAuth(authOptions);
     } catch (e) {
         console.error("Erro ao analisar GOOGLE_CREDENTIALS da variável de ambiente:", e);
     }
 } else {
-    credentialsConfig = path.join(__dirname, "credentials.json");
+    // Localmente, usamos o arquivo físico credentials.json via keyFile
+    authOptions.keyFile = path.join(__dirname, "credentials.json");
+    auth = new google.auth.GoogleAuth(authOptions);
 }
 
-const authOptions = {
-    scopes: ["https://www.googleapis.com/auth/drive.file"]
-};
-
-if (typeof credentialsConfig === "string") {
-    authOptions.keyFile = credentialsConfig;
-} else {
-    authOptions.credentials = credentialsConfig;
-}
-
-const auth = new google.auth.GoogleAuth(authOptions);
 const drive = google.drive({ version: "v3", auth });
 
 // ID da pasta "alunos" no Google Drive
