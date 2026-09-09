@@ -42,7 +42,7 @@ const auth = new google.auth.GoogleAuth(authOptions);
 const drive = google.drive({ version: "v3", auth });
 
 // ID da pasta "alunos" no Google Drive
-const PASTA_ALUNOS_ID = "075BMJq--gBTFi8AOINE8bypOWnwfKM4";
+const PASTA_ALUNOS_ID = "175bMJq--gBTfI8A0INE8bypOwNnwfKM4";
 
 function limparNomeArquivo(nome) {
     return nome
