@@ -350,12 +350,7 @@
         <section class="aula desafio">
             <span class="numero">08</span>
 <strong>lembrete:</strong><br> <h4>"cabeçalho"</h4> <p> <--DOCTYPE html--></br>
-                            <-html lang="pt-br-">
-                            <-head-><br></br>
-                           <br> <-title>ola mundo<-/title->
-                            <-meta charset="UTF-8"->
-                            <-meta name="viewport" content="width=device-width, initital-scale=1.0"->
-                          </br> <-link rel="stylesheet" href="style.css"-><br><br>
+  
                               
 
                          </p>
@@ -398,7 +393,7 @@
         <button id="btnRemoverCss"></button>
         <p id="statusCss"></p>
     </div>
-<a href="/forum/index.html" target="_blank" class="botao">💬 Abrir Fórum (Nova Aba)</a>
+
     <script src="script.js"></script>
 </body>
 </html>

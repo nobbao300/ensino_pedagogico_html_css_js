@@ -1,53 +1,122 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json({ limit: "100kb" }));
+app.use(express.json({ limit: "500kb" }));
+
+// Servir os arquivos da raiz (index.html, style.css do site principal, etc.)
 app.use(express.static(path.join(__dirname)));
 
-// 1. Conexão com o Banco de Dados Gratuito (A URL vem de uma Variável de Ambiente no Render)
-const MONGO_URI = process.env.MONGO_URI || "sua_string_de_conexao_local";
+// Servir a pasta galeria
+app.use("/galeria", express.static(path.join(__dirname, "galeria")));
+
+// Servir a pasta do fórum de forma dedicada
+app.use("/forum", express.static(path.join(__dirname, "forum")));
+
+// Conexão com o MongoDB
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/laboratorio_db";
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log("Conectado ao MongoDB com sucesso!"))
     .catch(err => console.error("Erro ao conectar ao MongoDB:", err));
 
-// 2. Definindo o "Molde" dos dados que vamos salvar
-const AlunoSchema = new mongoose.Schema({
-    nome: String,
-    texto: String,
+// Esquema do Fórum
+const ComentarioSchema = new mongoose.Schema({
+    autor: { type: String, required: true },
+    mensagem: { type: String, required: true },
     data: { type: Date, default: Date.now }
 });
 
-const AlunoModel = mongoose.model("AlunoTexto", AlunoSchema);
+const TopicoSchema = new mongoose.Schema({
+    titulo: { type: String, required: true },
+    autor: { type: String, default: "Criador" },
+    categoria: { type: String, default: "Geral" },
+    imagem: { type: String, default: "" },
+    conteudo: { type: String, required: true },
+    data: { type: Date, default: Date.now },
+    comentarios: [ComentarioSchema]
+});
 
-// 3. Rota para receber os dados do site e salvar na nuvem
-app.post("/api/salvar-txt", async (req, res) => {
+const TopicoModel = mongoose.model("Topico", TopicoSchema);
+
+// --- ROTAS DA API DO FÓRUM ---
+
+// 1. Listar tópicos
+app.get("/api/forum", async (req, res) => {
     try {
-        const { nome, texto } = req.body;
+        const topicos = await TopicoModel.find().sort({ data: -1 });
+        res.json(topicos);
+    } catch (erro) {
+        res.status(500).json({ erro: "Erro ao buscar tópicos." });
+    }
+});
 
-        if (!nome || !texto) {
-            return res.status(400).json({ erro: "Nome e texto são obrigatórios." });
+// 2. Criar tópico
+app.post("/api/forum", async (req, res) => {
+    try {
+        const { titulo, autor, categoria, imagem, conteudo } = req.body;
+        if (!titulo || !conteudo) {
+            return res.status(400).json({ erro: "Título e conteúdo são obrigatórios." });
         }
 
-        // Salva permanentemente no banco de dados do MongoDB Atlas
-        const novoRegistro = new AlunoModel({ nome, texto });
-        await novoRegistro.save();
-
-        console.log(`Texto salvo no MongoDB para o aluno: ${nome}`);
-
-        res.json({
-            sucesso: true,
-            mensagem: `Texto de "${nome}" salvo com segurança na nuvem!`
+        const novoTopico = new TopicoModel({
+            titulo,
+            autor: autor || "Anônimo",
+            categoria: categoria || "Geral",
+            imagem: imagem || "",
+            conteudo
         });
 
+        await novoTopico.save();
+        res.json({ sucesso: true, topico: novoTopico });
     } catch (erro) {
-        console.error("Erro ao salvar no banco de dados:", erro);
-        res.status(500).json({ erro: "Não foi possível salvar os dados." });
+        res.status(500).json({ erro: "Erro ao salvar tópico." });
     }
+});
+
+// 3. Adicionar comentário
+app.post("/api/forum/:id/comentarios", async (req, res) => {
+    try {
+        const { autor, mensagem } = req.body;
+        const { id } = req.params;
+
+        if (!mensagem) {
+            return res.status(400).json({ erro: "Mensagem é obrigatória." });
+        }
+
+        const topico = await TopicoModel.findById(id);
+        if (!topico) {
+            return res.status(404).json({ erro: "Tópico não encontrado." });
+        }
+
+        topico.comentarios.push({
+            autor: autor || "Visitante",
+            mensagem
+        });
+
+        await topico.save();
+        res.json({ sucesso: true, topico });
+    } catch (erro) {
+        res.status(500).json({ erro: "Erro ao adicionar comentário." });
+    }
+});
+
+// 4. Listar arquivos de imagem na pasta /galeria
+app.get("/api/galeria", (req, res) => {
+    const galeriaPath = path.join(__dirname, "galeria");
+    if (!fs.existsSync(galeriaPath)) {
+        fs.mkdirSync(galeriaPath);
+    }
+
+    fs.readdir(galeriaPath, (err, files) => {
+        if (err) return res.status(500).json({ erro: "Erro ao ler galeria." });
+        const imagens = files.filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f));
+        res.json(imagens);
+    });
 });
 
 app.listen(PORT, () => {

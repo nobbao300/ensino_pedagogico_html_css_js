@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórum de Discussões & Updates</title>
+    <!-- CSS próprio da pasta /forum -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topo">
+        <div class="container">
+            <p class="etiqueta">COMUNIDADE & ATUALIZAÇÕES</p>
+            <h1>Fórum do Projeto</h1>
+            <p class="subtitulo">Acompanhe as notas de desenvolvimento, novidades e interaja com a comunidade.</p>
+            <nav>
+                <a href="../index.html">← Voltar ao Início</a>
+                <a href="#novo-topico" class="btn">Criar Nova Postagem</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="margin-top: 30px;">
+        
+        <!-- FORMULÁRIO DE NOVA POSTAGEM -->
+        <section class="card-secao" id="novo-topico">
+            <h2>➕ Publicar no Fórum</h2>
+            <form id="formTopico">
+                <div class="grid-3">
+                    <div>
+                        <label><strong>Seu Nome / Nick:</strong></label>
+                        <input type="text" id="topicoAutor" placeholder="Ex: Criador do Projeto" required>
+                    </div>
+                    <div>
+                        <label><strong>Título do Tópico:</strong></label>
+                        <input type="text" id="topicoTitulo" placeholder="Ex: Atualização v1.2" required>
+                    </div>
+                    <div>
+                        <label><strong>Categoria:</strong></label>
+                        <input type="text" id="topicoCategoria" placeholder="Ex: Update, Anúncio, Dúvida">
+                    </div>
+                </div>
+
+                <label><strong>Imagem da Galeria (Opcional):</strong></label>
+                <select id="topicoImagem" class="input-select">
+                    <option value="">Nenhuma imagem selecionada</option>
+                </select>
+
+                <label><strong>Mensagem / Conteúdo:</strong></label>
+                <textarea id="topicoConteudo" placeholder="Escreva os detalhes da atualização..." required></textarea>
+
+                <button type="submit" class="btn">Publicar Tópico</button>
+                <span id="statusFormTopico" class="pequeno"></span>
+            </form>
+        </section>
+
+        <!-- LISTA DE POSTAGENS -->
+        <section class="card-secao">
+            <h2>💬 Postagens e Tópicos</h2>
+            <div id="forumContainer">
+                <p>Carregando postagens...</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Fórum Integrado — Laboratório do Projeto.</p>
+        </div>
+    </footer>
+
+    <!-- JS próprio da pasta /forum -->
+    <script src="script.js"></script>
+</body>
+</html>
