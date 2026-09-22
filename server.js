@@ -6,7 +6,7 @@ const fs = require("fs");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuração de parsers para lidar com dados de formulários e JSON
+// Configuração de parsers
 app.use(express.json({ limit: "500kb" }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -17,68 +17,56 @@ app.use(express.static(path.join(__dirname)));
 app.use("/galeria", express.static(path.join(__dirname, "galeria")));
 app.use("/forum", express.static(path.join(__dirname, "forum")));
 
-// Conexão com o MongoDB (Pega a variável MONGO_URI do Render ou conecta ao localhost)
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/laboratorio_db";
+// Conexão com o MongoDB
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/test";
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log("Conectado ao MongoDB com sucesso!"))
     .catch(err => console.error("Erro ao conectar ao MongoDB:", err));
 
 // ==========================================================
-// 1. RECEPTOR ANTIGO (PROJETO FINAL - ARQUIVOS TXT / RECADOS)
+// 1. RECEPTOR ANTIGO (SALVA NA COLEÇÃO 'alunotextos')
 // ==========================================================
 
-// Esquema para salvar as mensagens/arquivos antigos do site
-const MensagemAntigaSchema = new mongoose.Schema({
-    nomeArquivo: { type: String, default: "Sem nome" },
-    conteudo: { type: String, required: true },
+// Definindo o Schema idêntico ao modelo salvo no MongoDB
+const AlunoTextoSchema = new mongoose.Schema({
+    nome: { type: String, required: true },
+    texto: { type: String, required: true },
     data: { type: Date, default: Date.now }
 });
 
-const MensagemAntigaModel = mongoose.model("MensagemAntiga", MensagemAntigaSchema);
+// Forçando o Mongoose a usar exatamente a coleção 'alunotextos'
+const AlunoTextoModel = mongoose.model("AlunoTexto", AlunoTextoSchema, "alunotextos");
 
-// Rotas antigas para evitar o erro 'JSON.parse' no projeto final
-app.post("/gerar-txt", async (req, res) => {
+// Tratador genérico para salvar recados antigos
+const salvarTextoAntigo = async (req, res) => {
     try {
-        const { nomeArquivo, conteudo, nome, texto } = req.body;
-        const textoFinal = conteudo || texto || "";
-        const tituloFinal = nomeArquivo || nome || "recado.txt";
+        const { nome, texto, nomeArquivo, conteudo } = req.body;
+        
+        const autorFinal = nome || nomeArquivo || "Aluno Anônimo";
+        const textoFinal = texto || conteudo || "";
 
         if (!textoFinal) {
-            return res.status(400).json({ sucesso: false, erro: "Conteúdo não pode estar vazio." });
+            return res.status(400).json({ sucesso: false, erro: "O texto não pode estar vazio." });
         }
 
-        const novaMensagem = new MensagemAntigaModel({
-            nomeArquivo: tituloFinal,
-            conteudo: textoFinal
+        const novoRegistro = new AlunoTextoModel({
+            nome: autorFinal,
+            texto: textoFinal
         });
 
-        await novaMensagem.save();
-        res.json({ sucesso: true, mensagem: "Arquivo/Recado salvo com sucesso!", id: novaMensagem._id });
+        await novoRegistro.save();
+        res.json({ sucesso: true, mensagem: "Arquivo/Texto salvo no banco com sucesso!" });
     } catch (erro) {
-        console.error("Erro ao salvar mensagem antiga:", erro);
+        console.error("Erro ao salvar texto antigo:", erro);
         res.status(500).json({ sucesso: false, erro: "Erro interno no servidor ao salvar." });
     }
-});
+};
 
-// Alias para caso o frontend antigo chame /salvar
-app.post("/salvar", async (req, res) => {
-    try {
-        const { nomeArquivo, conteudo, nome, texto } = req.body;
-        const textoFinal = conteudo || texto || "";
-        const tituloFinal = nomeArquivo || nome || "recado.txt";
-
-        const novaMensagem = new MensagemAntigaModel({
-            nomeArquivo: tituloFinal,
-            conteudo: textoFinal
-        });
-
-        await novaMensagem.save();
-        res.json({ sucesso: true, mensagem: "Salvo com sucesso!" });
-    } catch (erro) {
-        res.status(500).json({ sucesso: false, erro: "Erro ao salvar." });
-    }
-});
+// Mapeando todas as possíveis rotas que o frontend antigo possa estar chamando
+app.post("/gerar-txt", salvarTextoAntigo);
+app.post("/salvar", salvarTextoAntigo);
+app.post("/api/salvar", salvarTextoAntigo);
 
 
 // ==========================================================
@@ -101,7 +89,7 @@ const TopicoSchema = new mongoose.Schema({
     comentarios: [ComentarioSchema]
 });
 
-const TopicoModel = mongoose.model("Topico", TopicoSchema);
+const TopicoModel = mongoose.model("Topico", TopicoSchema, "topicos");
 
 // Rotas da API do Fórum
 app.get("/api/forum", async (req, res) => {
@@ -176,5 +164,5 @@ app.get("/api/galeria", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Servidor rodando com sucesso na porta ${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });
