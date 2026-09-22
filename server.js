@@ -17,56 +17,61 @@ app.use(express.static(path.join(__dirname)));
 app.use("/galeria", express.static(path.join(__dirname, "galeria")));
 app.use("/forum", express.static(path.join(__dirname, "forum")));
 
-// Conexão com o MongoDB
+// Conexão com o MongoDB (Usando a URI do Render ou Local)
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/test";
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log("Conectado ao MongoDB com sucesso!"))
     .catch(err => console.error("Erro ao conectar ao MongoDB:", err));
 
+
 // ==========================================================
-// 1. RECEPTOR ANTIGO (SALVA NA COLEÇÃO 'alunotextos')
+// 1. RECEPTOR ANTIGO DA PÁGINA PRINCIPAL (PROJETO FINAL)
 // ==========================================================
 
-// Definindo o Schema idêntico ao modelo salvo no MongoDB
+// Mapeia os dados diretamente para a coleção 'alunotextos' do MongoDB Atlas
 const AlunoTextoSchema = new mongoose.Schema({
     nome: { type: String, required: true },
     texto: { type: String, required: true },
     data: { type: Date, default: Date.now }
 });
 
-// Forçando o Mongoose a usar exatamente a coleção 'alunotextos'
 const AlunoTextoModel = mongoose.model("AlunoTexto", AlunoTextoSchema, "alunotextos");
 
-// Tratador genérico para salvar recados antigos
-const salvarTextoAntigo = async (req, res) => {
+// Endpoint original chamado pelo script.js da página principal
+app.post("/api/salvar-txt", async (req, res) => {
     try {
-        const { nome, texto, nomeArquivo, conteudo } = req.body;
-        
-        const autorFinal = nome || nomeArquivo || "Aluno Anônimo";
-        const textoFinal = texto || conteudo || "";
+        const { nome, texto } = req.body;
 
-        if (!textoFinal) {
-            return res.status(400).json({ sucesso: false, erro: "O texto não pode estar vazio." });
+        if (!nome || !texto || !texto.trim()) {
+            return res.status(400).json({
+                sucesso: false,
+                erro: "Nome do arquivo e conteúdo são obrigatórios."
+            });
         }
 
+        // Salva diretamente na coleção alunotextos
         const novoRegistro = new AlunoTextoModel({
-            nome: autorFinal,
-            texto: textoFinal
+            nome: nome,
+            texto: texto
         });
 
         await novoRegistro.save();
-        res.json({ sucesso: true, mensagem: "Arquivo/Texto salvo no banco com sucesso!" });
-    } catch (erro) {
-        console.error("Erro ao salvar texto antigo:", erro);
-        res.status(500).json({ sucesso: false, erro: "Erro interno no servidor ao salvar." });
-    }
-};
 
-// Mapeando todas as possíveis rotas que o frontend antigo possa estar chamando
-app.post("/gerar-txt", salvarTextoAntigo);
-app.post("/salvar", salvarTextoAntigo);
-app.post("/api/salvar", salvarTextoAntigo);
+        // Resposta JSON exata que o script.js espera receber
+        return res.json({
+            sucesso: true,
+            mensagem: `Arquivo "${nome}" salvo no banco com sucesso!`
+        });
+
+    } catch (erro) {
+        console.error("Erro ao salvar no banco:", erro);
+        return res.status(500).json({
+            sucesso: false,
+            erro: "Não foi possível salvar o arquivo no banco de dados."
+        });
+    }
+});
 
 
 // ==========================================================
