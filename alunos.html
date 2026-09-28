@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projetos - Alunos 3º C</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .grid-alunos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .card-aluno {
+            background: rgba(30, 41, 59, 0.85);
+            border-left: 4px solid #991b1b;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        .card-aluno h3 {
+            margin: 0 0 8px 0;
+            color: #f8fafc;
+        }
+
+        .card-aluno p {
+            margin: 0 0 15px 0;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .btn-download {
+            display: inline-block;
+            text-align: center;
+            background: #991b1b;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-download:hover {
+            background: #b91c1c;
+        }
+
+        .voltar-container {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="topo">
+        <div class="container">
+            <p class="etiqueta">3º ANO C</p>
+            <h1>Projetos dos Alunos</h1>
+            <p class="subtitulo">Baixe o arquivo .txt do projeto desejado para dar continuidade aos trabalhos.</p>
+            
+            <div class="voltar-container">
+                <a href="index.html" class="botao secundario">← Voltar para a Página Principal</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="grid-alunos">
+
+            <!-- ALUNO 1 -->
+            <div class="card-aluno">
+                <div>
+                    <h3>Leticia</h3>
+                    <p>Turma: 3º C</p>
+                </div>
+                <a href="alunos 3C/leticia 3C projeto.txt" download class="btn-download">Clique aqui para instalar o txt</a>
+            </div>
+
+            <!-- ALUNO 2 -->
+            <div class="card-aluno">
+                <div>
+                    <h3>Nome do Aluno 2</h3>
+                    <p>Turma: 3º C</p>
+                </div>
+                <a href="alunos 3C/aluno2.txt" download class="btn-download">Clique aqui para instalar o txt</a>
+            </div>
+
+            <!-- ALUNO 3 -->
+            <div class="card-aluno">
+                <div>
+                    <h3>Nome do Aluno 3</h3>
+                    <p>Turma: 3º C</p>
+                </div>
+                <a href="alunos 3C/aluno3.txt" download class="btn-download">Clique aqui para instalar o txt</a>
+            </div>
+
+            <!-- ALUNO 4 -->
+            <div class="card-aluno">
+                <div>
+                    <h3>Nome do Aluno 4</h3>
+                    <p>Turma: 3º C</p>
+                </div>
+                <a href="alunos 3C/aluno4.txt" download class="btn-download">Clique aqui para instalar o txt</a>
+            </div>
+
+            <!-- ALUNO 5 -->
+            <div class="card-aluno">
+                <div>
+                    <h3>Nome do Aluno 5</h3>
+                    <p>Turma: 3º C</p>
+                </div>
+                <a href="alunos 3C/aluno5.txt" download class="btn-download">Clique aqui para instalar o txt</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; Laboratório de Programação — 3º C</p>
+        </div>
+    </footer>
+
+</body>
+</html>
