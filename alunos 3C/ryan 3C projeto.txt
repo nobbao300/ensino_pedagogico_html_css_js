@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+"<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-widt, initial-scale=1.0">
+    </title>minha primeira pagina</title>
+    </head>
+    </body>
+         <h1>ola, mundo!</h1>
+         <p>esta é a minha primeira pagina </P>
+            <a href="https://youtu.be/uzS3WG6__G4?si=cWN_ruwFgIA308yv" target="_blank">
+         <img src="imagem/FK.jpg">
+         </a>   
+         <a href="https://youtu.be/uzS3WG6__G4?si=cWN_ruwFgIA308yv" target="_blank">
+         <img src="imagem/FK.jpg">
+         </a>          
+         
+         
+         
+    </body>
+    </html>
