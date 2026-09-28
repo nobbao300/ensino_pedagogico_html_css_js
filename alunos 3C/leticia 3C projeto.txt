@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR>">
+<head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1,0">
+     <link rel="stylesheet" href="cor.css">
+     <title>minha primeira página</title>
+</head>
+</body>
+<header>
+    </hl>𝜗ৎ SEJA BEM VINDO 𝜗ৎ</hl> <BR>
+      </header>
+   
+    <ul>
+    <li><a href="https://youtu.be/Km__cJEJ3JI?si=-KFNScYYw-ROH-T7" target="_blank">
+        <img src="arianaG.png"
+         alt="Descrição da imagem">
+       </a></li>
+       <li><a href="https://youtu.be/KmT4Y8w1nho?si=OoMXXwazhvdQrWaF" target="_blank">
+        <img src="taylor.png"
+         alt="Descrição da imagem"></li>
+       </a>
+       </ul>
+    </body>
+    </html>
+
+
+
+CSS:
+
+header{
+  background-color: rgb(217, 154, 202);
+  font-size: 50px;
+  text-align: center;
+}
