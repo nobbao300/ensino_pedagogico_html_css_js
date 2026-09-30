@@ -7,6 +7,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "electron": "^44.5.1",
     "express": "^5.1.0",
     "googleapis": "^178.1.1",
     "mongoose": "^9.9.5"

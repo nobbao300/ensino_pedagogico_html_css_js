@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortal Kombat 3 - Offline Local</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+        }
+        #game {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game"></div>
+
+    <script>
+        EJS_player = '#game';
+        EJS_core = 'segaMD';
+        EJS_gameName = 'Mortal Kombat 3';
+        EJS_gameUrl = 'mk3.md'; // Nome correto da sua ROM que vi na primeira imagem!
+        
+        // CORREÇÃO 1: Este caminho precisa ser a CDN oficial estável do projeto
+        EJS_pathtodata = 'https://emulatorjs.org';
+    </script>
+    
+    <!-- CORREÇÃO 2: Este script final precisa carregar o loader.js correto da CDN -->
+    <script src="https://emulatorjs.orgloader.js"></script>
+
+</body>
+</html>
